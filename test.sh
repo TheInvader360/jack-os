@@ -8,7 +8,7 @@ echo "Compiling os files..."
 #./JackCompiler.sh ../../jack-os/Output.jack
 #./JackCompiler.sh ../../jack-os/Screen.jack
 #./JackCompiler.sh ../../jack-os/String.jack
-#./JackCompiler.sh ../../jack-os/Sys.jack
+./JackCompiler.sh ../../jack-os/Sys.jack
 echo
 
 echo "Comparing vm files..."
@@ -19,7 +19,7 @@ echo "Comparing vm files..."
 #./TextComparer.sh ../../jack-os/fixtures/Output.vm-golden ../../jack-os/Output.vm
 #./TextComparer.sh ../../jack-os/fixtures/Screen.vm-golden ../../jack-os/Screen.vm
 #./TextComparer.sh ../../jack-os/fixtures/String.vm-golden ../../jack-os/String.vm
-#./TextComparer.sh ../../jack-os/fixtures/Sys.vm-golden ../../jack-os/Sys.vm
+./TextComparer.sh ../../jack-os/fixtures/Sys.vm-golden ../../jack-os/Sys.vm
 echo
 
 echo "Compiling tests..."
@@ -31,7 +31,7 @@ cp ../../jack-os/Array.vm ../../jack-os/test/ArrayTest/Array.vm
 #cp ../../jack-os/Output.vm ../../jack-os/test/OutputTest/Output.vm
 #cp ../../jack-os/Screen.vm ../../jack-os/test/ScreenTest/Screen.vm
 #cp ../../jack-os/String.vm ../../jack-os/test/StringTest/String.vm
-#cp ../../jack-os/Sys.vm ../../jack-os/test/SysTest/Sys.vm
+cp ../../jack-os/Sys.vm ../../jack-os/test/SysTest/Sys.vm
 ./JackCompiler.sh ../../jack-os/test/ArrayTest
 #./JackCompiler.sh ../../jack-os/test/KeyboardTest
 #./JackCompiler.sh ../../jack-os/test/MathTest
@@ -40,7 +40,7 @@ cp ../../jack-os/Array.vm ../../jack-os/test/ArrayTest/Array.vm
 #./JackCompiler.sh ../../jack-os/test/OutputTest
 #./JackCompiler.sh ../../jack-os/test/ScreenTest
 #./JackCompiler.sh ../../jack-os/test/StringTest
-#./JackCompiler.sh ../../jack-os/test/SysTest
+./JackCompiler.sh ../../jack-os/test/SysTest
 echo
 
 echo "Launching emulator..."

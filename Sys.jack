@@ -5,22 +5,53 @@ class Sys {
 
     /** Performs all the initializations required by the OS. */
     function void init() {
-        //TODO: Implement!
+        do Memory.init();
+        do Math.init();
+        do Screen.init();
+        do Output.init();
+        do Keyboard.init();
+        // no String init()...
+        // no Array init()...
+        do Main.main();
+        do Sys.halt();
+        return;
     }
 
     /** Halts the program execution. */
     function void halt() {
-        //TODO: Implement!
+        while (true) {
+            // infinite "do nothing" loop...
+        }
+        return;
     }
 
     /** Waits approximately duration milliseconds and returns. */
     function void wait(int duration) {
-        //TODO: Implement!
+        var int countdown;
+
+        if (duration < 0) {
+            do Sys.error(1);
+        }
+
+        while (duration > 0) {
+            let countdown = 50;
+            while (countdown > 0) {
+                let countdown = countdown - 1;
+            }
+            let duration = duration - 1;
+        }
+
+        return;
     }
 
     /** Displays the given error code in the form "ERR<errorCode>"
      *  and halts the program's execution. */
     function void error(int errorCode) {
-        //TODO: Implement!
+        do Output.printChar(69); // E
+        do Output.printChar(82); // R
+        do Output.printChar(82); // R
+        do Output.printInt(errorCode);
+        do Sys.halt();
+        return;
     }
 }
