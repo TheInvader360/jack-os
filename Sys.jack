@@ -1,0 +1,26 @@
+/**
+ * A library that supports various program execution services.
+ */
+class Sys {
+
+    /** Performs all the initializations required by the OS. */
+    function void init() {
+        //TODO: Implement!
+    }
+
+    /** Halts the program execution. */
+    function void halt() {
+        //TODO: Implement!
+    }
+
+    /** Waits approximately duration milliseconds and returns. */
+    function void wait(int duration) {
+        //TODO: Implement!
+    }
+
+    /** Displays the given error code in the form "ERR<errorCode>"
+     *  and halts the program's execution. */
+    function void error(int errorCode) {
+        //TODO: Implement!
+    }
+}
