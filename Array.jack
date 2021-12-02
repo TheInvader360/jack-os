@@ -10,11 +10,15 @@ class Array {
 
     /** Constructs a new Array of the given size. */
     function Array new(int size) {
-        //TODO: Implement!
+        if (~(size > 0)) {
+            do Sys.error(2);
+        }
+        return Memory.alloc(size);
     }
 
     /** Disposes this array. */
     method void dispose() {
-        //TODO: Implement!
+        do Memory.deAlloc(this);
+        return;
     }
 }
