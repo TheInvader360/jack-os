@@ -5,7 +5,8 @@ class Keyboard {
 
     /** Initializes the keyboard. */
     function void init() {
-        //TODO: Implement!
+        // does nothing... (required to pass comparison tests!)
+        return;
     }
 
     /**
@@ -29,7 +30,7 @@ class Keyboard {
      * F1 - F12 = 141 - 152
      */
     function char keyPressed() {
-        //TODO: Implement!
+        return Memory.peek(24576); // return the char code stored in the keyboard memory map (i.e. the single 16-bit word located at memory address 24576)
     }
 
     /**
@@ -38,7 +39,19 @@ class Keyboard {
      * of the pressed key.
      */
     function char readChar() {
-        //TODO: Implement!
+        var char heldKeyCode, pressedKeyCode;
+
+        do Output.printChar(0); // display the cursor character
+        while ((pressedKeyCode = 0) | (heldKeyCode > 0)) { // if no key has been pressed yet, or the same key is still being held down...
+            let heldKeyCode = Keyboard.keyPressed();
+            if (heldKeyCode > 0) {
+                let pressedKeyCode = heldKeyCode;
+            }
+        }
+        do Output.printChar(String.backSpace());
+        do Output.printChar(pressedKeyCode);
+
+        return pressedKeyCode;
     }
 
     /**
@@ -47,7 +60,27 @@ class Keyboard {
      * and returns its value. Also handles user backspaces.
      */
     function String readLine(String message) {
-        //TODO: Implement!
+        var char userSuppliedChar, newLineChar, backSpaceChar;
+        var String userSuppliedString;
+        var boolean userDone;
+
+        let userSuppliedString = String.new(80); // construct an empty string with an arbitrary maximum capacity of 80 characters
+        do Output.printString(message);
+        let newLineChar = String.newLine(); // avoid making repeated String.newLine() calls...
+        let backSpaceChar = String.backSpace(); // avoid making repeated String.backSpace() calls...
+        while (~userDone) {
+            let userSuppliedChar = Keyboard.readChar();
+            let userDone = (userSuppliedChar = newLineChar); // user is done once they hit return
+            if (~userDone) {
+                if (userSuppliedChar = backSpaceChar) {
+                    do userSuppliedString.eraseLastChar();
+                } else {
+                    let userSuppliedString = userSuppliedString.appendChar(userSuppliedChar);
+                }
+            }
+        }
+
+        return userSuppliedString;
     }
 
     /**
@@ -57,6 +90,13 @@ class Keyboard {
      * entered text is detected). Also handles user backspaces.
      */
     function int readInt(String message) {
-        //TODO: Implement!
+        var String userSuppliedString;
+        var int userSuppliedInt;
+
+        let userSuppliedString = Keyboard.readLine(message);
+        let userSuppliedInt = userSuppliedString.intValue(); // parse userSuppliedString as an int (up until a non-digit character is detected)
+        do userSuppliedString.dispose();
+
+        return userSuppliedInt;
     }
 }

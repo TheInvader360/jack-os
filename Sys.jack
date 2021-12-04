@@ -30,7 +30,7 @@ class Sys {
         var int countdown;
 
         if (duration < 0) {
-            do Sys.error(1);
+            do Sys.error(1); // error: duration must be positive
         }
 
         while (duration > 0) {
