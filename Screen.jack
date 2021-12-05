@@ -6,40 +6,55 @@
  */
 class Screen {
 
+    static Array screen;
+    static boolean color;
+
     /** Initializes the Screen. */
     function void init() {
-        //TODO: Implement!
+        let screen = 16384; // hack to allow addressing screen without constructing the array (offset = screen map base address)
+        let color = true;
+        return;
     }
 
     /** Erases the entire screen. */
     function void clearScreen() {
-        //TODO: Implement!
+        var int i;
+        while (i < 8192) {
+            let screen[i] = false;
+            let i = i + 1;
+        }
+        return;
     }
 
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
-        //TODO: Implement!
+        let color = b;
+		return;
     }
 
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
         //TODO: Implement!
+        return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
         //TODO: Implement!
+        return;
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
         //TODO: Implement!
+        return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
         //TODO: Implement!
+        return;
     }
 }

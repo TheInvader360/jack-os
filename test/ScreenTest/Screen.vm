@@ -1,0 +1,48 @@
+function Screen.init 0
+push constant 16384
+pop static 0
+push constant 0
+not
+pop static 1
+push constant 0
+return
+function Screen.clearScreen 1
+label WHILE_EXP0
+push local 0
+push constant 8192
+lt
+not
+if-goto WHILE_END0
+push local 0
+push static 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Screen.setColor 0
+push argument 0
+pop static 1
+push constant 0
+return
+function Screen.drawPixel 0
+push constant 0
+return
+function Screen.drawLine 0
+push constant 0
+return
+function Screen.drawRectangle 0
+push constant 0
+return
+function Screen.drawCircle 0
+push constant 0
+return

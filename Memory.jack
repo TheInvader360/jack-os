@@ -30,11 +30,13 @@ class Memory {
      *  a reference to its base address. */
     function int alloc(int size) {
         //TODO: Implement!
+        return -1;
     }
 
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
     function void deAlloc(Array object) {
         //TODO: Implement!
+        return;
     }
 }

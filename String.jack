@@ -7,65 +7,164 @@
  */
 class String {
 
+    field int maxSize;
+    field Array characters;
+    field int currentSize;
+
     /** Constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
-        //TODO: Implement!
+        if (maxLength < 0) {
+            do Sys.error(14); // error: maximum length must be non-negative
+        }
+        if (maxLength > 0) {
+            let characters = Array.new(maxLength);
+        }
+        let maxSize = maxLength;
+        let currentSize = 0;
+
+        return this;
     }
 
     /** Disposes this string. */
     method void dispose() {
-        //TODO: Implement!
+        if (maxSize > 0) {
+            do characters.dispose();
+        }
+        do Memory.deAlloc(this);
+
+        return;
     }
 
     /** Returns the current length of this string. */
     method int length() {
-        //TODO: Implement!
+        return currentSize;
     }
 
     /** Returns the character at the j-th location of this string. */
     method char charAt(int j) {
-        //TODO: Implement!
+        if ((j < 0) | (j > currentSize) | (j = currentSize)) {
+            do Sys.error(15); // error: string index out of bounds
+        }
+
+        return characters[j];
     }
 
     /** Sets the character at the j-th location of this string to c. */
     method void setCharAt(int j, char c) {
-        //TODO: Implement!
+        if ((j < 0) | (j > currentSize) | (j = currentSize)) {
+            do Sys.error(16); // error: string index out of bounds
+        }
+        let characters[j] = c;
+
+        return;
     }
 
     /** Appends c to this string's end and returns this string. */
     method String appendChar(char c) {
-        //TODO: Implement!
+        if (currentSize = maxSize) {
+            do Sys.error(17); // error: string is full
+        }
+        let characters[currentSize] = c;
+        let currentSize = currentSize + 1;
+
+        return this;
     }
 
     /** Erases the last character from this string. */
     method void eraseLastChar() {
-        //TODO: Implement!
+        if (currentSize = 0) {
+            do Sys.error(18); // error: string is empty
+        }
+        let currentSize = currentSize - 1;
+
+        return;
     }
 
     /** Returns the integer value of this string,
      *  until a non-digit character is detected. */
     method int intValue() {
-        //TODO: Implement!
+        var int i, value, digit;
+        var boolean continue, negative;
+
+        if (currentSize = 0) {
+            return 0;
+        }
+        let continue = true;
+        if (characters[0] = 45) { // a minus symbol (character code 45 / -) is a valid non-numeric first character for an integer...
+            let negative = true;
+            let i = 1;
+        }
+        while ((i < currentSize) & continue) {
+            let digit = characters[i] - 48;
+            let continue = ~((digit < 0) | (digit > 9)); // stop if a non-numeric character...
+            if (continue) {
+                let value = (value * 10) + digit; // left shift existing decimal digits (i.e. multiply by 10) then add on the newly extracted least significant decimal digit
+                let i = i + 1;
+            }
+        }
+        if (negative) {
+            let value = -value;
+        }
+
+        return value;
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
-        //TODO: Implement!
+        var int i, burndownValue;
+        var Array characterCodes;
+        var boolean negative;
+
+        if (maxSize = 0) {
+            do Sys.error(19); // error: insufficient string capacity
+        }
+        let characterCodes = Array.new(6); // construct an array to temporarily store the extracted character codes
+        if (val < 0) {
+            let negative = true;
+            let val = -val;
+        }
+        let burndownValue = val;
+        while (burndownValue > 0) {
+            let burndownValue = val / 10; // drop the least significant digit (e.g. if value=123 then burndownValue=12)
+            let characterCodes[i] = 48 + (val - (burndownValue * 10)); // store the least significant decimal digit's character code (e.g. 48+(123-(12*10))=51, the character code for decimal digit 3)
+            let i = i + 1;
+            let val = burndownValue; // set val to the burndownValue (e.g. 12) and keep iterating until there are no more digits left to process...
+        }
+        if (negative) {
+            let characterCodes[i] = 45; // if the provided val was a negative number, add  a minus symbol (character code 45 / -) to the characterCodes array
+            let i = i + 1;
+        }
+        if (maxSize < i) {
+            do Sys.error(19); // error: insufficient string capacity
+        }
+        if (i = 0) {
+            let characters[0] = 48;
+            let currentSize = 1;
+        } else {
+            let currentSize = 0;
+            while (currentSize < i) {
+                let characters[currentSize] = characterCodes[i - (currentSize + 1)]; // step backwards through the characterCodes array to correctly populate the characters array (e.g. [3,2,1,-] -> [-,1,2,3])
+                let currentSize = currentSize + 1;
+            }
+        }
+        do characterCodes.dispose();
+
+        return;
     }
 
     /** Returns the new line character. */
     function char newLine() {
-        //TODO: Implement!
+        return 128;
     }
 
     /** Returns the backspace character. */
     function char backSpace() {
-        //TODO: Implement!
+        return 129;
     }
 
     /** Returns the double quote (") character. */
     function char doubleQuote() {
-        //TODO: Implement!
+        return 34;
     }
 }
