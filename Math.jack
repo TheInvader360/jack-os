@@ -4,9 +4,19 @@
  */
 class Math {
 
+    static int twoToThe; // [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+
     /** Initializes the library. */
     function void init() {
-        //TODO: Implement!
+        var int i;
+
+        let twoToThe = Array.new(16);
+        let twoToThe[0] = 1;
+        while (i < 15) {
+            let i = i + 1;
+            let twoToThe[i] = twoToThe[i - 1] + twoToThe[i - 1];
+        }
+
         return;
     }
 
@@ -15,6 +25,7 @@ class Math {
         if (x < 0) {
             let x = -x;
         }
+
         return x;
     }
 
@@ -24,24 +35,75 @@ class Math {
      *  the Jack expressions x*y and multiply(x,y) return the same value.
      */
     function int multiply(int x, int y) {
-        //TODO: Implement!
-        return -1;
+        var int sum, i;
+        var boolean negative;
+
+        let negative = ((x < 0) & (y > 0)) | ((x > 0) & (y < 0)); // operate on absolute values then set the sign appropriately at the end...
+        let x = Math.abs(x);
+        let y = Math.abs(y);
+        while (i < 16) {
+            if (~((twoToThe[i] & y) = 0)) { // bit(y,n) without the subroutine call (evaluates to true if the n-th bit of the integer y is 1)
+                let sum = sum + x;
+            }
+            let x = x + x;
+            let i = i + 1;
+        }
+        if (negative) {
+            let sum = -sum;
+        }
+
+        return sum;
     }
 
     /** Returns the integer part of x/y.
-     *  When a Jack compiler detects the multiplication operator '/' in the
+     *  When a Jack compiler detects the division operator '/' in the
      *  program's code, it handles it by invoking this method. In other words,
      *  the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
-        //TODO: Implement!
-        return -1;
+        var int q, sum;
+        var boolean negative;
+
+        if (y = 0) {
+            do Sys.error(3); // error: division by zero
+        }
+        let negative = ((x < 0) & (y > 0)) | ((x > 0) & (y < 0)); // operate on absolute values then set the sign appropriately at the end...
+        let x = Math.abs(x);
+        let y = Math.abs(y);
+        if (y > x) {
+            return 0;
+        }
+        let q = x / (y + y);
+        if ((x - ((q + q) * y)) < y) {
+            let sum = q + q;
+        } else {
+            let sum = q + q + 1;
+        }
+        if (negative) {
+            let sum = -sum;
+        }
+
+        return sum;
     }
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
-        //TODO: Implement!
-        return -1;
+        var int y, j, yPlusTwoToTheJ, yPlusTwoToTheJSquared;
+
+        if (x < 0) {
+            do Sys.error(4); // error: cannot compute square root of a negative number
+        }
+        let j = 7; // i.e. n/2-1 where n is the number of bits in x (16/2-1 = 7)
+        while (j > -1) { // iterate down to j=0
+            let yPlusTwoToTheJ = y + twoToThe[j];
+            let yPlusTwoToTheJSquared = yPlusTwoToTheJ * yPlusTwoToTheJ;
+            if (~(yPlusTwoToTheJSquared > x) & ~(yPlusTwoToTheJSquared < 0)) {
+                let y = yPlusTwoToTheJ;
+            }
+            let j = j - 1;
+        }
+
+        return y;
     }
 
     /** Returns the greater number. */
@@ -49,6 +111,7 @@ class Math {
         if (a > b) {
             let b = a;
         }
+
         return b;
     }
 
@@ -57,6 +120,7 @@ class Math {
         if (a < b) {
             let b = a;
         }
+
         return b;
     }
 }

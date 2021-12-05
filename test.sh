@@ -14,7 +14,7 @@ echo
 echo "Comparing vm files..."
 ./TextComparer.sh ../../jack-os/fixtures/Array.vm-golden ../../jack-os/Array.vm
 ./TextComparer.sh ../../jack-os/fixtures/Keyboard.vm-golden ../../jack-os/Keyboard.vm
-#./TextComparer.sh ../../jack-os/fixtures/Math.vm-golden ../../jack-os/Math.vm
+#./TextComparer.sh ../../jack-os/fixtures/Math.vm-golden ../../jack-os/Math.vm          # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
 #./TextComparer.sh ../../jack-os/fixtures/Memory.vm-golden ../../jack-os/Memory.vm
 #./TextComparer.sh ../../jack-os/fixtures/Output.vm-golden ../../jack-os/Output.vm
 #./TextComparer.sh ../../jack-os/fixtures/Screen.vm-golden ../../jack-os/Screen.vm
