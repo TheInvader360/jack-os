@@ -36,12 +36,14 @@ class Screen {
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
         //TODO: Implement!
+        //TODO: do Sys.error(7); // error: illegal pixel coordinates
         return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
         //TODO: Implement!
+        //TODO: do Sys.error(8); // error: illegal line coordinates
         return;
     }
 
@@ -49,12 +51,15 @@ class Screen {
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
         //TODO: Implement!
+        //TODO: do Sys.error(9); // error: illegal rectangle coordinates
         return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
         //TODO: Implement!
+        //TODO: do Sys.error(12); // error: illegal center coordinates
+        //TODO: do Sys.error(13); // error: illegal radius
         return;
     }
 }

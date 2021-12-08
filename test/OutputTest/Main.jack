@@ -13,7 +13,41 @@ class Main {
     
     	let s = String.new(1);
     	do s.appendChar(String.doubleQuote());
-    
+
+        /*
+            // advanceCursor() test
+            // advance from row/col 0,0 (expect "1" printed at 0,1)
+            do Output.moveCursor(0, 0);
+            do Output.advanceCursor();
+            do Output.printChar(49);
+            // advance from row/col 0,63 (expect "2" printed at 1,0)
+            do Output.moveCursor(0, 63);
+            do Output.advanceCursor();
+            do Output.printChar(50);
+            // advance from row/col 22,63 (expect "3" printed at 0,0)
+            do Output.moveCursor(22, 63);
+            do Output.advanceCursor();
+            do Output.printChar(51);
+        */
+
+        /*
+            // backSpace() test:
+            // print "X", "Y", "Z" and "!" at 0,62 0,63 1,0 and 22,63...
+            do Output.moveCursor(0, 62);
+            do Output.printChar(88);
+            do Output.printChar(89);
+            do Output.printChar(90);
+            do Output.moveCursor(22, 63);
+            do Output.printChar(33);
+            // ... then delete them all!
+            do Output.moveCursor(1, 1);
+            do Output.backSpace();
+            do Output.backSpace();
+            do Output.backSpace();
+            do Output.moveCursor(0, 0);
+            do Output.backSpace();
+        */
+
         do Output.moveCursor(0, 63);
         do Output.printChar(66);
         do Output.moveCursor(22, 0);
@@ -36,7 +70,7 @@ class Main {
         do Output.printInt(-12345);
         do Output.backSpace();
         do Output.printInt(6789);
-        
+
         return;
     }
 }
