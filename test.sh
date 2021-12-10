@@ -14,10 +14,10 @@ echo
 echo "Comparing vm files..."
 ./TextComparer.sh ../../jack-os/fixtures/Array.vm-golden ../../jack-os/Array.vm
 ./TextComparer.sh ../../jack-os/fixtures/Keyboard.vm-golden ../../jack-os/Keyboard.vm
-#./TextComparer.sh ../../jack-os/fixtures/Math.vm-golden ../../jack-os/Math.vm          # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
-#./TextComparer.sh ../../jack-os/fixtures/Memory.vm-golden ../../jack-os/Memory.vm
-#./TextComparer.sh ../../jack-os/fixtures/Output.vm-golden ../../jack-os/Output.vm      # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
-#./TextComparer.sh ../../jack-os/fixtures/Screen.vm-golden ../../jack-os/Screen.vm
+#./TextComparer.sh ../../jack-os/fixtures/Math.vm-golden ../../jack-os/Math.vm        # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
+#./TextComparer.sh ../../jack-os/fixtures/Memory.vm-golden ../../jack-os/Memory.vm    # wip...
+#./TextComparer.sh ../../jack-os/fixtures/Output.vm-golden ../../jack-os/Output.vm    # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
+#./TextComparer.sh ../../jack-os/fixtures/Screen.vm-golden ../../jack-os/Screen.vm    # intentionally disabled: my implementation differs from the provided golden vm file, but all tests pass.
 ./TextComparer.sh ../../jack-os/fixtures/String.vm-golden ../../jack-os/String.vm
 ./TextComparer.sh ../../jack-os/fixtures/Sys.vm-golden ../../jack-os/Sys.vm
 echo
@@ -26,6 +26,7 @@ echo "Compiling tests..."
 cp ../../jack-os/Array.vm ../../jack-os/test/ArrayTest/Array.vm
 cp ../../jack-os/Keyboard.vm ../../jack-os/test/KeyboardTest/Keyboard.vm
 cp ../../jack-os/Math.vm ../../jack-os/test/MathTest/Math.vm
+cp ../../jack-os/Math.vm ../../jack-os/test/ScreenTest/Math.vm                        # the required mod() extension is not available in the built-in implementation of math.
 cp ../../jack-os/Memory.vm ../../jack-os/test/MemoryDiag/Memory.vm
 cp ../../jack-os/Memory.vm ../../jack-os/test/MemoryTest/Memory.vm
 cp ../../jack-os/Output.vm ../../jack-os/test/OutputTest/Output.vm

@@ -8,11 +8,20 @@ class Screen {
 
     static Array screen;
     static boolean color;
+    static int twoToThe; // [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+    static int i;
 
     /** Initializes the Screen. */
     function void init() {
         let screen = 16384; // hack to allow addressing screen without constructing the array (offset = screen map base address)
-        let color = true;
+        let color = true; // default color is true/black
+        let twoToThe = Array.new(16);
+        let twoToThe[0] = 1;
+        while (i < 15) {
+            let i = i + 1;
+            let twoToThe[i] = twoToThe[i - 1] + twoToThe[i - 1];
+        }
+
         return;
     }
 
@@ -26,6 +35,16 @@ class Screen {
         return;
     }
 
+    function void updateLocation(int address, int bitMask) {
+        if (color) {
+            let screen[address] = screen[address] | bitMask; // bitwise or the existing value at the given address and the given bit mask to cause the relevant pixel to be turned on or remain on
+        } else {
+            let screen[address] = screen[address] & ~bitMask; // bitwise and the existing value at the given address and the inverse of the given bit mask to cause the relevant pixel to be turned off or remain off
+        }
+        return;
+    }
+
+
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
@@ -35,31 +54,219 @@ class Screen {
 
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
-        //TODO: Implement!
-        //TODO: do Sys.error(7); // error: illegal pixel coordinates
+        var int address, bit;
+
+        if ((x < 0) | (x > 511) | (y < 0) | (y > 255)) {
+            do Sys.error(7); // error: illegal pixel coordinates
+        }
+        let address = (32 * y) + (x / 16); // there are 32 words per row, and each bit in each word corresponds to a single pixel
+        let bit = Math.mod(x, 16);
+        do Screen.updateLocation(address, twoToThe[bit]);
+
         return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
-        //TODO: Implement!
-        //TODO: do Sys.error(8); // error: illegal line coordinates
+        if ((x1 < 0) | (x2 < 0) | (x1 > 511) | (x2 > 511) | (y1 < 0) | (y2 < 0) | (y1 > 255) | (y2 > 255)) {
+            do Sys.error(8); // error: illegal line coordinates
+        }
+        if (x1 = x2) {
+            do Screen.drawVerticalLine(x1, y1, y2);
+        } else {
+            if (y1 = y2) {
+                do Screen.drawHorizontalLine(x1, x2, y1);
+            } else {
+                do Screen.drawDiagonalLine(x1, y1, x2, y2);
+            }
+        }
+
         return;
+    }
+
+    // Draws a horizontal line
+    function void drawHorizontalLine(int x1, int x2, int y) {
+        var int swap;
+
+        // ensure that x1 is less than x2
+        if (x1 > x2) {
+            let swap = x1;
+            let x1 = x2;
+            let x2 = swap;
+        }
+        while (~(x1 > x2)) {
+            if ((Math.mod(x1, 16) > 0) | ((x1 + 16) > x2)) {
+                do Screen.drawPixel(x1, y);
+                let x1 = x1 + 1;
+            } else {
+                do Screen.updateLocation((32 * y) + (x1 / 16), -1); // blit all 16 contiguous pixels mapped to this address in a single operation...
+                let x1 = x1 + 16;
+            }
+        }
+
+        return;
+    }
+
+    // Draws a vertical line
+    function void drawVerticalLine(int x, int y1, int y2) {
+        var int swap;
+
+        // ensure that y1 is less than y2
+        if (y1 > y2) {
+            let swap = y1;
+            let y1 = y2;
+            let y2 = swap;
+        }
+        // draw line from top to bottom
+        do Screen.drawPixel(x, y1);
+        while (~(y1 > y2)) {
+            do Screen.drawPixel(x, y1);
+            let y1 = y1 + 1;
+        }
+
+        return;
+    }
+
+    // Draws a diagonal line
+    function void drawDiagonalLine(int x1, int y1, int x2, int y2) {
+        // bresenham's line drawing algorithm - results in a pixel perfect match of the provided reference screenshot
+        var int dx, dy, sx, sy, e, e2;
+
+        let dx = Math.abs(x2 - x1);
+        let dy = Math.abs(y2 - y1);
+        if (dy < 0) {
+            let dy = -dy;
+        }
+        if (x1 < x2) {
+            let sx = 1;
+        } else {
+            let sx = -1;
+        }
+        if (y1 < y2) {
+            let sy = 1;
+        } else {
+            let sy = -1;
+        }
+        let e = dx - dy;
+        while ((~(x1 = x2)) & (~(y1 = y2))) {
+            do Screen.drawPixel(x1, y1);
+            let e2 = e + e;
+            if (e2 > -dy) {
+                let e = e - dy;
+                let x1 = x1 + sx;
+            }
+            if (e2 < dx) {
+                let e = e + dx;
+                let y1 = y1 + sy;
+            }
+        }
+        do Screen.drawPixel(x1, y1);
+
+        return;
+
+        /*
+        // lecture slide algorithm - results in a thicker line (no "anti-aliased" steps) than the provided reference screenshot
+        var int dx, dy, stepX, stepY, a, b, diff;
+
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        if (dx > 0) {
+            let stepX = 1;
+        } else {
+            let stepX = -1;
+        }
+        if (dy > 0) {
+            let stepY = 1;
+        } else {
+            let stepY = -1;
+        }
+        while ((Math.abs(a - dx) > 0) | (Math.abs(b - dy) > 0)) {
+            do Screen.drawPixel(x1 + a, y1 + b);
+            if (diff < 0) {
+                let a = a + stepX;
+                let diff = diff + Math.abs(dy);
+            } else {
+                let b = b + stepY;
+                let diff = diff - Math.abs(dx);
+            }
+        }
+
+        return;
+        */
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
-        //TODO: Implement!
-        //TODO: do Sys.error(9); // error: illegal rectangle coordinates
+        if ((x1 < 0) | (x2 < 0) | (x1 > 511) | (x2 > 511) | (y1 < 0) | (y2 < 0) | (y1 > 255) | (y2 > 255) | (x1 > x2) | (y1 > y2)) {
+            do Sys.error(9); // error: illegal rectangle coordinates
+        }
+        while (~(y1 > y2)) {
+            do Screen.drawHorizontalLine(x1, x2, y1);
+            let y1 = y1 + 1;
+        }
+
         return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
-        //TODO: Implement!
-        //TODO: do Sys.error(12); // error: illegal center coordinates
-        //TODO: do Sys.error(13); // error: illegal radius
+        // midpoint line drawing algorithm - results in an *almost* pixel perfect match of the provided reference screenshot
+        var int xk, yk, rError, startX, endX;
+
+        if ((x < 0) | (x > 511) | (y < 0) | (y > 255)) {
+            do Sys.error(12); // error: illegal center coordinates
+        }
+        if ((r < 0) | (r > 181)) {
+            do Sys.error(13); // error: illegal radius
+        }
+        let xk = r;
+        let yk = 0;
+        let rError = 1 - xk;
+        while (~(xk < yk)) {
+            let startX = -xk + x;
+            let endX = xk + x;
+            do Screen.drawHorizontalLine(startX, endX, yk + y);
+            if (~(yk = 0)) {
+                do Screen.drawHorizontalLine(startX, endX, -yk + y);
+            }
+            let yk = yk + 1;
+            if (rError < 0) {
+                let rError = rError + yk + yk + 1;
+            } else {
+                if (~(xk < yk)) {
+                    let startX = -yk + 1 + x;
+                    let endX = yk - 1 + x;
+                    do Screen.drawHorizontalLine(startX, endX, xk + y);
+                    do Screen.drawHorizontalLine(startX, endX, -xk + y);
+                }
+                let xk = xk - 1;
+                let rError = rError + yk + yk - xk - xk + 2;
+            }
+        }
+
         return;
+
+        /*
+        // lecture slide algorithm - results in the right min/max extents (axis aligned radius) but a slightly different overall shape than the provided reference screenshot
+        var int dy, xOffset;
+
+        if ((x < 0) | (x > 511) | (y < 0) | (y > 255)) {
+            do Sys.error(12); // error: illegal center coordinates
+        }
+        if ((r < 0) | (r > 181)) {
+            do Sys.error(13); // error: illegal radius
+        }
+        // for each dy = -r to r do:
+        let dy = -r;
+        while (~(dy > r)) {
+            // drawLine(x − sqrt((r * r) - (dy * dy)), y + dy, x + sqrt((r * r) - (dy * dy)), y + dy)
+            let xOffset = Math.sqrt((r * r) - (dy * dy));
+            do Screen.drawHorizontalLine(x - xOffset, x + xOffset, y + dy);
+            let dy = dy + 1;
+        }
+
+        return;
+        */
     }
 }

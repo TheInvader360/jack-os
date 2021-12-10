@@ -1,0 +1,38 @@
+    // Draws a diagonal line
+    function void drawDiagonalLine(int x1, int y1, int x2, int y2) {
+        // bresenham's line drawing algorithm - results in a pixel perfect match of the provided reference screenshot
+        var int dx, dy, sx, sy, e, e2;
+
+        let dx = Math.abs(x2 - x1);
+        let dy = Math.abs(y2 - y1);
+        if (dy < 0) {
+            let dy = -dy;
+        }
+        if (x1 < x2) {
+            let sx = 1;
+        } else {
+            let sx = -1;
+        }
+        if (y1 < y2) {
+            let sy = 1;
+        } else {
+            let sy = -1;
+        }
+        let e = dx - dy;
+        while ((~(x1 = x2)) & (~(y1 = y2))) {
+            do Screen.drawPixel(x1, y1);
+            let e2 = e + e;
+            if (e2 > -dy) {
+                let e = e - dy;
+                let x1 = x1 + sx;
+            }
+            if (e2 < dx) {
+                let e = e + dx;
+                let y1 = y1 + sy;
+            }
+        }
+        do Screen.drawPixel(x1, y1);
+
+        return;
+    }
+

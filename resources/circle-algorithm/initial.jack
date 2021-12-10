@@ -1,0 +1,22 @@
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+        // lecture slide algorithm - results in the right min/max extents (axis aligned radius) but a slightly different overall shape than the provided reference screenshot
+        var int dy, xOffset;
+
+        if ((x < 0) | (x > 511) | (y < 0) | (y > 255)) {
+            do Sys.error(12); // error: illegal center coordinates
+        }
+        if ((r < 0) | (r > 181)) {
+            do Sys.error(13); // error: illegal radius
+        }
+        // for each dy = -r to r do:
+        let dy = -r;
+        while (~(dy > r)) {
+            // drawLine(x − sqrt((r * r) - (dy * dy)), y + dy, x + sqrt((r * r) - (dy * dy)), y + dy)
+            let xOffset = Math.sqrt((r * r) - (dy * dy));
+            do Screen.drawHorizontalLine(x - xOffset, x + xOffset, y + dy);
+            let dy = dy + 1;
+        }
+
+        return;
+    }

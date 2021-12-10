@@ -1,0 +1,39 @@
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+        // midpoint line drawing algorithm - results in an *almost* pixel perfect match of the provided reference screenshot
+        var int xk, yk, rError, startX, endX;
+
+        if ((x < 0) | (x > 511) | (y < 0) | (y > 255)) {
+            do Sys.error(12); // error: illegal center coordinates
+        }
+        if ((r < 0) | (r > 181)) {
+            do Sys.error(13); // error: illegal radius
+        }
+        let xk = r;
+        let yk = 0;
+        let rError = 1 - xk;
+        while (~(xk < yk)) {
+            let startX = -xk + x;
+            let endX = xk + x;
+            do Screen.drawHorizontalLine(startX, endX, yk + y);
+            if (~(yk = 0)) {
+                do Screen.drawHorizontalLine(startX, endX, -yk + y);
+            }
+            let yk = yk + 1;
+            if (rError < 0) {
+                let rError = rError + yk + yk + 1;
+            } else {
+                if (~(xk < yk)) {
+                    let startX = -yk + 1 + x;
+                    let endX = yk - 1 + x;
+                    do Screen.drawHorizontalLine(startX, endX, xk + y);
+                    do Screen.drawHorizontalLine(startX, endX, -xk + y);
+                }
+                let xk = xk - 1;
+                let rError = rError + yk + yk - xk - xk + 2;
+            }
+        }
+
+        return;
+    }
+
