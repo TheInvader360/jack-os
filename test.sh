@@ -44,6 +44,36 @@ cp ../../jack-os/Sys.vm ../../jack-os/test/SysTest/Sys.vm
 ./JackCompiler.sh ../../jack-os/test/SysTest
 echo
 
+echo "Compiling games..."
+cp ../../jack-os/Array.vm ../../jack-os/games/Pong/Array.vm
+cp ../../jack-os/Keyboard.vm ../../jack-os/games/Pong/Keyboard.vm
+cp ../../jack-os/Math.vm ../../jack-os/games/Pong/Math.vm
+cp ../../jack-os/Memory.vm ../../jack-os/games/Pong/Memory.vm
+cp ../../jack-os/Output.vm ../../jack-os/games/Pong/Output.vm
+cp ../../jack-os/Screen.vm ../../jack-os/games/Pong/Screen.vm
+cp ../../jack-os/String.vm ../../jack-os/games/Pong/String.vm
+cp ../../jack-os/Sys.vm ../../jack-os/games/Pong/Sys.vm
+cp ../../jack-os/Array.vm ../../jack-os/games/Sokoban/Array.vm
+cp ../../jack-os/Keyboard.vm ../../jack-os/games/Sokoban/Keyboard.vm
+cp ../../jack-os/Math.vm ../../jack-os/games/Sokoban/Math.vm
+cp ../../jack-os/Memory.vm ../../jack-os/games/Sokoban/Memory.vm
+cp ../../jack-os/Output.vm ../../jack-os/games/Sokoban/Output.vm
+cp ../../jack-os/Screen.vm ../../jack-os/games/Sokoban/Screen.vm
+cp ../../jack-os/String.vm ../../jack-os/games/Sokoban/String.vm
+cp ../../jack-os/Sys.vm ../../jack-os/games/Sokoban/Sys.vm
+cp ../../jack-os/Array.vm ../../jack-os/games/Square/Array.vm
+cp ../../jack-os/Keyboard.vm ../../jack-os/games/Square/Keyboard.vm
+cp ../../jack-os/Math.vm ../../jack-os/games/Square/Math.vm
+cp ../../jack-os/Memory.vm ../../jack-os/games/Square/Memory.vm
+cp ../../jack-os/Output.vm ../../jack-os/games/Square/Output.vm
+cp ../../jack-os/Screen.vm ../../jack-os/games/Square/Screen.vm
+cp ../../jack-os/String.vm ../../jack-os/games/Square/String.vm
+cp ../../jack-os/Sys.vm ../../jack-os/games/Square/Sys.vm
+./JackCompiler.sh ../../jack-os/games/Pong
+./JackCompiler.sh ../../jack-os/games/Sokoban
+./JackCompiler.sh ../../jack-os/games/Square
+
 echo "Launching emulator..."
 ./VMEmulator.sh
 echo
+
