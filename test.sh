@@ -26,11 +26,13 @@ echo "Compiling tests..."
 cp ../../jack-os/Array.vm ../../jack-os/test/ArrayTest/Array.vm
 cp ../../jack-os/Keyboard.vm ../../jack-os/test/KeyboardTest/Keyboard.vm
 cp ../../jack-os/Math.vm ../../jack-os/test/MathTest/Math.vm
+cp ../../jack-os/Math.vm ../../jack-os/test/OutputTest/Math.vm                        # the required mod() extension is not available in the built-in implementation of math.
 cp ../../jack-os/Math.vm ../../jack-os/test/ScreenTest/Math.vm                        # the required mod() extension is not available in the built-in implementation of math.
 cp ../../jack-os/Memory.vm ../../jack-os/test/MemoryDiag/Memory.vm
 cp ../../jack-os/Memory.vm ../../jack-os/test/MemoryTest/Memory.vm
 cp ../../jack-os/Output.vm ../../jack-os/test/OutputTest/Output.vm
 cp ../../jack-os/Screen.vm ../../jack-os/test/ScreenTest/Screen.vm
+cp ../../jack-os/Screen.vm ../../jack-os/test/OutputTest/Screen.vm                    # the required clearRectangle() extension is not available in the built-in implementation of screen.
 cp ../../jack-os/String.vm ../../jack-os/test/StringTest/String.vm
 cp ../../jack-os/Sys.vm ../../jack-os/test/SysTest/Sys.vm
 ./JackCompiler.sh ../../jack-os/test/ArrayTest

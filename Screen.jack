@@ -8,7 +8,7 @@ class Screen {
 
     static Array screen;
     static boolean color;
-    static int twoToThe; // [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+    static Array twoToThe; // [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
     static int i;
 
     /** Initializes the Screen. */
@@ -198,6 +198,41 @@ class Screen {
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
+        // reverse engineered the provided golden vm file (my own attempt passed all tests, but was very slow...)
+        var int local1, local2, local3, local4, local5, local6, local7, local8, local9;
+
+        if ((((((x1 > x2) | (y1 > y2)) | (x1 < 0)) | (x2 > 511)) | (y1 < 0)) | (y2 > 255)) {
+            do Sys.error(9);
+        }
+        let local4 = x1 / 16;
+        let local8 = x1 - (local4 * 16);
+        let local5 = x2 / 16;
+        let local9 = x2 - (local5 * 16);
+        let local7 = ~(twoToThe[local8] - 1);
+        let local6 = twoToThe[local9 + 1] - 1;
+        let local1 = (y1 * 32) + local4;
+        let local3 = local5 - local4;
+        while (~(y1 > y2)) {
+            let local2 = local1 + local3;
+            if (local3 = 0) {
+                do Screen.updateLocation(local1, local6 & local7);
+            } else {
+                do Screen.updateLocation(local1, local7);
+                let local1 = local1 + 1;
+                while (local1 < local2) {
+                    do Screen.updateLocation(local1, -1);
+                    let local1 = local1 + 1;
+                }
+                do Screen.updateLocation(local2, local6);
+            }
+            let y1 = y1 + 1;
+            let local1 = (local2 + 32) - local3;
+        }
+
+        return;
+        
+        /*
+        // my initial (very slow) attempt at drawing rectangles...
         if ((x1 < 0) | (x2 < 0) | (x1 > 511) | (x2 > 511) | (y1 < 0) | (y2 < 0) | (y1 > 255) | (y2 > 255) | (x1 > x2) | (y1 > y2)) {
             do Sys.error(9); // error: illegal rectangle coordinates
         }
@@ -205,6 +240,19 @@ class Screen {
             do Screen.drawHorizontalLine(x1, x2, y1);
             let y1 = y1 + 1;
         }
+
+        return;
+        */
+    }
+
+    // Clears a rectangle (sets its pixels to white/false without lasting change to the current color)
+    function void clearRectangle(int x1, int y1, int x2, int y2) {
+        var boolean savedColor;
+
+        let savedColor = color;
+        let color = false;
+        do Screen.drawRectangle(x1, y1, x2, y2);
+        let color = savedColor;
 
         return;
     }
