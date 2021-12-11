@@ -520,6 +520,42 @@ label WHILE_END0
 push constant 0
 return
 function Screen.drawCircle 5
+push argument 0
+push constant 0
+lt
+push argument 0
+push constant 511
+gt
+or
+push argument 1
+push constant 0
+lt
+or
+push argument 1
+push constant 255
+gt
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 12
+call Sys.error 1
+pop temp 0
+label IF_FALSE0
+push argument 2
+push constant 0
+lt
+push argument 2
+push constant 181
+gt
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 13
+call Sys.error 1
+pop temp 0
+label IF_FALSE1
 push argument 2
 pop local 0
 push constant 0
@@ -555,9 +591,9 @@ push local 1
 push constant 0
 eq
 not
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
 push local 3
 push local 4
 push local 1
@@ -566,7 +602,7 @@ push argument 1
 add
 call Screen.drawHorizontalLine 3
 pop temp 0
-label IF_FALSE0
+label IF_FALSE2
 push local 1
 push constant 1
 add
@@ -574,9 +610,9 @@ pop local 1
 push local 2
 push constant 0
 lt
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
 push local 2
 push local 1
 add
@@ -585,15 +621,15 @@ add
 push constant 1
 add
 pop local 2
-goto IF_END1
-label IF_FALSE1
+goto IF_END3
+label IF_FALSE3
 push local 0
 push local 1
 lt
 not
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
 push local 1
 neg
 push constant 1
@@ -622,7 +658,7 @@ push argument 1
 add
 call Screen.drawHorizontalLine 3
 pop temp 0
-label IF_FALSE2
+label IF_FALSE4
 push local 0
 push constant 1
 sub
@@ -639,7 +675,7 @@ sub
 push constant 2
 add
 pop local 2
-label IF_END1
+label IF_END3
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
